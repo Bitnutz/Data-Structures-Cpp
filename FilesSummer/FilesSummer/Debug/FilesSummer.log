@@ -1,0 +1,5 @@
+﻿  FilesSummer.cpp
+C:\Users\Ivan\source\repos\FilesSummer\FilesSummer\FilesSummer.cpp(25,2): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\Ivan\source\repos\FilesSummer\FilesSummer\FilesSummer.cpp(26,2): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\Ivan\source\repos\FilesSummer\FilesSummer\FilesSummer.cpp(30,28): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+  FilesSummer.vcxproj -> C:\Users\Ivan\source\repos\FilesSummer\Debug\FilesSummer.exe
