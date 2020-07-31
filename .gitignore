@@ -1,5 +1,8 @@
-/Debug
-.sln
-.vcxproj
-.vcxproj.filters
-.vcxproj.user
+*.sln
+pch.cpp
+pch.h
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+Debug/
+.vs
