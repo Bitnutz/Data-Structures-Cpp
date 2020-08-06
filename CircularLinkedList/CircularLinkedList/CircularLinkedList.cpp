@@ -1,5 +1,4 @@
 // CircularLinkedList.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 #include <assert.h>
 #include <iostream>
 
@@ -31,13 +30,14 @@ private:
 			temp = temp->next;
 		}
 	}
+	
 	void del()
 	{
-		while (first != nullptr)
+		while (size != 0)
 		{
 			node* temp = first;
 			popFront();
-			delete[] temp;
+			delete temp;
 		}
 	}
 
@@ -97,9 +97,9 @@ public:
 		}
 		size++;
 	}
-	void pushAfter(node*& current, const T& element)
+	void pushAfter(node* current, const T& element)
 	{
-		assert(!isEmpty(), "Cannot insert after a node that doesn't exist!\n");
+		assert(!isEmpty() && "Cannot insert after a node that doesn't exist!\n");
 		node* temp = new node(element);
 
 		if (size == 1)
@@ -135,23 +135,32 @@ public:
 			return 1;
 		}
 	}
-	bool popAfter(node*& current)
+	bool popCurrent(node* current)
 	{
 		if (isEmpty())
 			return 0;
-		else if (size == 1)
+		node* temp = first;
+		if (temp->data == current->data)
 		{
 			popFront();
 			return 1;
 		}
-		else
+
+		for (size_t i = 0; i < size; i++)
 		{
-			node* toDel = current->next;
-			current->next = toDel->next;
-			delete[] toDel;
-			size--;
-			return 1;
+			if (temp->next == last && last->data == current->data)
+			{
+				temp->next = last->next;
+			}
+			else if (temp->next == current)
+			{
+				node* toDel = temp->next;
+				temp->next = toDel->next;
+			}
+			temp = temp->next;
 		}
+		size--;
+		return 1;
 	}
 
 	// ################# Checks
@@ -165,8 +174,9 @@ public:
 	}
 	void print() const
 	{
-		assert(!isEmpty());
-		node* temp = first ->next;
+		assert(!isEmpty() && "Cannot print an empty list!\n");
+	
+		node* temp = first;
 		for(size_t i = 0; i < size; i++)
 		{
 			std::cout << temp->data << "  ";
@@ -193,12 +203,44 @@ public:
 			return nullptr;
 		}
 	}
+
+	// Getters
+	node* getFirst() const
+	{
+		return first;
+	}
+	node* getLast() const
+	{
+		return last;
+	}
+	
+	//sort
+	void sortList()
+	{
+		node* index;
+		node* selection;
+		T temp;
+
+		for (index = first; index->next != first; index = index->next)
+		{
+			for (selection = index->next; selection->next != first->next; selection = selection->next)
+			{
+				if (index->data > selection->data)
+				{
+					temp = index->data;
+					index->data = selection->data;
+					selection->data = temp;
+				}
+			}
+		}
+	}
 };
 
-int main()
+void mainTest()
 {
-	
 	//test basic functionalities
+
+	// the sorting function works only with number-types variables (int, double, etc.)
 
 	Circular_linked_list<int> ll;
 	ll.pushBack(1);
@@ -210,20 +252,29 @@ int main()
 	Circular_linked_list<int>::node* temp = ll.find(2);
 	ll.pushAfter(temp, 7);
 	ll.popFront();
-	std::cout << "Before popAfter()\n";
+	std::cout << "Before popCurrent(2)\n";
 	ll.print();
-	std::cout << "After popAfter()\n";
-	ll.popAfter(temp);
-
+	std::cout << "After popCurrent(2)\n";
+	ll.popCurrent(temp);
 	ll.print();
-	std::cout << ll.getSize() << std::endl;
+	std::cout << "Size: "<< ll.getSize() << std::endl;
+	std::cout << "Selection sort applied:\n";
+	ll.sortList();
+	ll.print();
 
 	// test copy 
+	std::cout << "Test operator=\n";
 	Circular_linked_list<int> ll2;
 	ll2 = ll;
 
 	ll2.print();
 	std::cout << ll2.getSize() << std::endl;
+}
+
+
+int main()
+{
+	mainTest();
 
 	return 0;
 }
