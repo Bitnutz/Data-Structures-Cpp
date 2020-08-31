@@ -48,6 +48,8 @@ public:
 // pushes the big elements in the higher levels, after we add an element.
 inline void MaxHeap::shift_up(size_t index)
 {
+	// index can't be greater than the size of the heap.
+	// index == 1 is a base case.
 	if (index > size || index == 1)
 		return;
 
@@ -72,8 +74,7 @@ inline void MaxHeap::insert(int value)
 //pushes the small elements down, after we pop the maximum element.
 inline void MaxHeap::shift_down(size_t index)
 {
-	// if the index can't be bigger than the size of the heap.
-	// index == 1 is base case.
+	// the index can't be bigger than the size of the heap.
 	if (index > size)
 		return;
 
